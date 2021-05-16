@@ -3,24 +3,34 @@ const result = document.getElementById('result')
 const resetBtn = document.getElementById('reset')
 const aiPlayer = 'X', huPlayer = 'O'
 
+/**
+ * Основной класс
+ */
 class Game {
+  /**
+   * 
+   * @param {Number} size - длина доски 
+   */
   constructor(size = 3) {
     this.size = size
-    this.turn = Math.floor(Math.random() * 2)
-    this.turnCount = 0
+    this.turn = Math.floor(Math.random() * 2) // рандомно выбираем первый ход
+    this.turnCount = 0 // учет кол-ва ходов
 
-    resetBtn.addEventListener('click', () => {
+    // сбрасывает текущее состояние игры
+    resetBtn.addEventListener('click', () => { 
       this.resetGame()
     })
 
-    this.cellList = []
-    this.resetGame()
+    this.cellList = [] // сюда пихаем дом элементы
+    this.resetGame() 
   }
 
+  // делаем удобный геттер
   get limit() {
     return this.size * this.size
   }
 
+  // создаем клетки, биндим обработчик нажатия и закидываем в массив
   init() {
     for (let i = 0; i < this.limit; i++) {
       const cell = document.createElement('div')
@@ -46,7 +56,7 @@ class Game {
       const id = e.target.getAttribute('data-id')
       this.board[+id] = huPlayer
       this.cellList[+id].innerHTML = `<span>${huPlayer}</span>`
-      if (this.turnCount >= this.limit) {
+      if (this.turnCount >= this.limit) { 
         result.innerHTML = '<h4>Draw!</h4>'
         return
       }
